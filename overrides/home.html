@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section ---------------------------------------------------------->
+<section class="mdx-hero">
+  <div class="mdx-hero__wrapper md-grid md-typeset">
+
+
+
+    <div class="mdx-hero__content">
+      <h1>United Documentation<br>for everyone</h1>
+      <p>
+        Write your documentation in Markdown and share
+         with the team. 
+         Creat business and techincal documentation, user guides, tutorials,
+         and find them in one place. 
+      </p>
+      <div class="mdx-hero__buttons">
+        <a href="{{ page.next_page.url | url }}" class="md-button">
+          Quick start
+        </a>
+        <a href="https://github.com/MindwiseLLC"
+          class="md-button md-button--primary">
+          Our Github
+        </a>
+      </div>
+    </div>
+    
+    <div class="mdx-hero__illustration">
+      <img src="{{ 'assets/illustration.png' | url }}" alt="Illustration">
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+

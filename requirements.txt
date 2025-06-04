@@ -1,0 +1,8 @@
+mkdocs 
+mkdocstrings 
+mkdocstrings[python] 
+mkdocs-exporter 
+mkdocs-material
+mkdocs-encryptcontent-plugin
+mkdocs-jupyter
+

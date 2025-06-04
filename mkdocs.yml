@@ -1,0 +1,390 @@
+site_name: "United Documentation"
+site_url: "https://your-org.github.io/centralized-docs/" 
+repo_url: "https://MindwiseLLC.github.io/centralized-docs" 
+repo_name: "centralized-docs"
+edit_uri: "edit/main/docs/" # Or blob/main/docs/ depending on GitHub's default
+
+
+# ===========================================================================
+#                          Initial Website Setups
+# ===========================================================================
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/mindwise_logo_text_edited.svg
+  favicon: images/mindwise_logo_short.svg
+  features:
+    - navigation.tabs
+    # - navigation.sections
+    # - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - navigation.instant.progress
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit  
+
+  palette:
+    # Palette toggle for light/dark mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue grey
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: grey
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/git-alt
+
+
+extra_css:
+  - styles/home.css
+
+
+# ===========================================================================
+#                                  Plugins
+# ===========================================================================
+
+plugins:
+
+  # Enables search in website
+  - search
+  # Multirepo plugin: Pulls and combines documnetation from various sources
+  - multirepo:
+      # PLEASE DO NOT CHANGE PLUGIN PARAMETERS, WORK ONLY WITH nav_repos
+      keep_docs_dir: true 
+      temp_dir: projects
+
+      ### YOU WILL WORK HERE IF YOU NEED TO ADD YOUR DOCUMENTATION
+      nav_repos:
+        # This will be the directory name within your hub's docs folder where project docs are built
+        - name: test 
+          # This is the github repository that from which the documenatation will be imported
+          import_url: https://github.com/MindwiseLLC/demo-repository?branch=main&edit_uri=/blob/main/  
+          # this is all the files and folders that shold be imported from github repository
+          imports: [/docs/*]
+
+        - name: nlp-pipeline 
+          import_url: https://github.com/MindwiseLLC/NLP-pipeline?branch=production_nlp&edit_uri=/blob/production_nlp/ 
+          imports: [/readme.md, /docs/*, /readme_assets/*, /notebooks/*]
+        
+        - name: data-cleansing-pipeline 
+          import_url: https://github.com/MindwiseLLC/data-cleansing?branch=production_cleansing&edit_uri=/blob/production_cleansing/ 
+          imports: [/readme.md]
+        
+        - name: product-tracing 
+          import_url: https://github.com/MindwiseLLC/Product-tracing?branch=production_tracing&edit_uri=/blob/production_tracing/ 
+          imports: [/readme.md, /docs/*]
+        
+        - name: causal-impact
+          import_url: https://github.com/MindwiseLLC/Causal_impact?branch=main&edit_uri=/blob/main/ 
+          imports: [/README.md, /docs/*]
+        
+        - name: commodity-tracing
+          import_url: https://github.com/MindwiseLLC/commodity_tracing?branch=main&edit_uri=/blob/main/ 
+          imports: [/README.md]
+
+        - name: data-preparation
+          import_url: https://github.com/MindwiseLLC/data-preparation?branch=main&edit_uri=/blob/main/ 
+          imports: [/README.md]
+
+        - name: complex-audit
+          import_url: https://github.com/MindwiseLLC/supervised?branch=production_supervised&edit_uri=/blob/production_supervised/ 
+          imports: [/README.md, complex_audits_frauds/README.md]
+
+        - name: clustering
+          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production_unsupervised&edit_uri=/blob/production_unsupervised/ 
+          imports: [clustering/README.md]
+
+        - name: time-series-analysis
+          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production_unsupervised&edit_uri=/blob/production_unsupervised/ 
+          imports: [time_series_analysis/README.md]
+
+        - name: supermarket-scraper
+          import_url: https://github.com/MindwiseLLC/SupermarketScraper?branch=main&edit_uri=/blob/main/
+          imports: [/README.md]
+
+
+        - name: causal # This will be the directory name within your hub's docs folder where NLP docs are built
+          import_url: https://github.com/MindwiseLLC/testing-docs?branch=main&edit_uri=/blob/main/
+          imports: [causal/docs/*]
+
+        - name: docstrings
+          import_url: https://github.com/MindwiseLLC/testing-docs?branch=main&edit_uri=/blob/main/&keep_docs_dir=true&extra_imports=["py_doc_Strings/**"]
+          imports:
+            - py_doc_Strings/**   # already contains both docs & code
+
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            # paths are relative to the project root *after* multirepo copies files
+            - projects/docstrings/
+
+
+  # Enables pdf export in the webstie
+  ## DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
+  - exporter:
+      logging:
+            level: critical
+      formats:
+        pdf:
+          enabled: !ENV [MKDOCS_EXPORTER_PDF, true]
+          concurrency: 8
+          stylesheets:
+            - resources/stylesheets/pdf.scss
+          browser:
+            debug: false
+
+      buttons:
+        - title: View as PDF
+          icon: material-file-move-outline
+          enabled: !!python/name:mkdocs_exporter.formats.pdf.buttons.download.enabled
+          attributes:
+            target: _blank
+            href: !!python/name:mkdocs_exporter.formats.pdf.buttons.download.href
+        - title: Download as PDF
+          icon: material-file-download-outline
+          enabled: !!python/name:mkdocs_exporter.formats.pdf.buttons.download.enabled
+          attributes: !!python/name:mkdocs_exporter.formats.pdf.buttons.download.attributes
+  
+  
+  ## DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
+  - encryptcontent:
+      # optional cosmetics
+      title_prefix: '[LOCK]'
+      summary: 'This section is password-protected'
+
+      password_inventory:         # you can put this anywhere inside the plugin block
+          secret:
+            admin: !ENV ADMIN_PW
+            # ADMIN_PW=adminpass mkdocs serve
+  
+  # Enables Jupyter Notebook Intergration
+  - mkdocs-jupyter
+
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+         
+# ===========================================================================
+#                                    Navigation 
+# ===========================================================================
+
+nav:
+  # ===========================================================================
+  #                                    Home page
+  # ===========================================================================
+  - Home: index.md
+
+  - Secrets: secrets.md
+  
+  # ===========================================================================
+  #                               Business Documentation
+  # ===========================================================================
+
+  - Business Documentation: 
+    - TEST: # This will link to the imported NLP docs, now structured under "Business"
+      # Path assumes 'nlp' is the section name from multirepo, and 'business.md' is in its docs folder
+      - Overview: test/docs/business.md 
+  
+    - NLP pipeline: 
+      - Categorization: nlp-pipeline/docs/business_categorization.md
+      - Brand: nlp-pipeline/docs/business_brand.md
+      - Unit Measure: nlp-pipeline/docs/business_unit_measure.md
+      - Notebook test: nlp-pipeline/notebooks/aggregation_code.ipynb
+
+    - Data-Cleansing-Pipeline:
+      # TODO: Wrtie data cleanisng business documentation 
+      - Overview: add_your_documentation_here.md  
+
+    - Product-tracing:
+      - Product Tracing: product-tracing/docs/tracing_business.md
+      - Product General Tracing: product-tracing/docs/general_tracing_business.md
+
+    # - Causal-Impact: causal-impact/docs/business.md  
+
+    # - Commodity-Tracing:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Data-Preparation:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Complex-Audit:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Clustering:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Time-Series-Analysis:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Supermarket-Scraper:
+    #   - Overview: add_your_documentation_here.md
+
+    # - Causal: 
+    #   - Overview: causal/causal/docs/business.md 
+
+
+    - docstrings: 
+      - Overview: docstrings/py_doc_Strings/docs/docstrings.md 
+    
+  # ===========================================================================
+  #                               Techincal Documentation
+  # ===========================================================================
+  
+  - Technical Documentation:
+    - TEST:
+      - Overview: test/docs/technical.md
+
+    - NLP pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Data-Cleansing-Pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Product-tracing:
+      - Overview: add_your_documentation_here.md  
+
+    - Causal-Impact:
+      - Overview: add_your_documentation_here.md  
+
+    - Commodity-Tracing:
+      - Overview: add_your_documentation_here.md
+
+    - Data-Preparation:
+      - Overview: add_your_documentation_here.md
+
+    - Complex-Audit:
+      - Overview: add_your_documentation_here.md
+
+    - Clustering:
+      - Overview: add_your_documentation_here.md
+
+    - Time-Series-Analysis:
+      - Overview: add_your_documentation_here.md
+
+    - Supermarket-Scraper:
+      - Overview: add_your_documentation_here.md
+
+  # ===========================================================================
+  #                                  User Manuals
+  # ===========================================================================
+
+  - User Manuals:
+    - TEST:
+      - Overview: test/docs/user_manual.md
+    - NLP pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Data-Cleansing-Pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Product-tracing:
+      - Overview: add_your_documentation_here.md  
+
+    - Causal-Impact:
+      - Overview: add_your_documentation_here.md  
+
+    - Commodity-Tracing:
+      - Overview: add_your_documentation_here.md
+
+    - Data-Preparation:
+      - Overview: add_your_documentation_here.md
+
+    - Complex-Audit:
+      - Overview: add_your_documentation_here.md
+
+    - Clustering:
+      - Overview: add_your_documentation_here.md
+
+    - Time-Series-Analysis:
+      - Overview: add_your_documentation_here.md
+
+    - Supermarket-Scraper:
+      - Overview: add_your_documentation_here.md
+
+  # ===========================================================================
+  #                               Whole Project Documentation
+  # ===========================================================================
+
+  - Projects:
+    - TEST Overview: test/docs/index.md
+
+    - NLP pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Data-Cleansing-Pipeline:
+      - Overview: add_your_documentation_here.md  
+
+    - Product-tracing:
+      - Overview: product-tracing/readme.md  
+      - Product Tracing: product-tracing/docs/tracing_business.md
+      - Product General Tracing: product-tracing/docs/general_tracing_business.md
+
+    - Causal-Impact:
+      - Overview: causal-impact/README.md  
+      - Business: causal-impact/docs/business.md  
+
+    - Commodity-Tracing:
+      - Overview: add_your_documentation_here.md
+
+    - Data-Preparation:
+      - Overview: add_your_documentation_here.md
+
+    - Complex-Audit:
+      - Overview: add_your_documentation_here.md
+
+    - Clustering:
+      - Overview: add_your_documentation_here.md
+
+    - Time-Series-Analysis:
+      - Overview: add_your_documentation_here.md
+
+    - Supermarket-Scraper:
+      - Overview: supermarket-scraper/README.md
+
+  # ===========================================================================
+  #                               Experiments Documentation
+  # ===========================================================================
+
+  - Experiments:
+    - NLP Experiments
+
+
+  # ===========================================================================
+  #                            Onboarding and Tutorials
+  # ===========================================================================
+
+  - Onboarding:
+    - How To Write Documentation:
+      - Overview: onboarding/how-to-write-documentation.md
+      - Markdown Tricks and Tips: onboarding/markdown-guide.md
+    - smth
+    - else 
+
+
+
+
+
+
+

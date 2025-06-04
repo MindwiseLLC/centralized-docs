@@ -1,0 +1,107 @@
+.mdx-hero {
+  padding: 0;
+  background: var(--md-default-bg-color);
+}
+
+.mdx-hero__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 420px;
+  padding: 2rem 0 2rem 0;
+}
+
+.mdx-hero__content {
+  max-width: 350px;          /* smaller text area */
+  flex: 0 0 350px;
+  margin-right: 2.5rem;
+}
+
+.mdx-hero__content h1 {
+  font-size: 1.7rem;         /* smaller header */
+  margin-bottom: 0.7rem;
+  font-weight: 700;
+  color: var(--md-primary-fg-color);
+  line-height: 1.1;
+}
+
+.mdx-hero__content p {
+  color: var(--md-typeset-color);
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.mdx-hero__buttons .md-button {
+  font-size: 1rem;
+  padding: 0.6em 1.3em;
+  min-width: unset;
+  min-height: unset;
+  box-sizing: border-box;
+  height: auto;
+  line-height: 1.2;
+}
+
+.mdx-hero__buttons .md-button {
+  white-space: nowrap;
+}
+
+.mdx-hero__buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+}
+.mdx-hero__buttons .md-button {
+  font-size: 1rem;
+  padding: 0.6em 1.3em;
+  white-space: nowrap;
+  min-width: unset;
+}
+
+
+.md-button--primary {
+  background: var(--md-primary-fg-color);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+
+.mdx-hero__illustration {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.mdx-hero__illustration img {
+  width: 700px;             /* larger image */
+  max-width: 98vw;
+  height: auto;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+@media (max-width: 850px) {
+  .mdx-hero__wrapper {
+    flex-direction: column;
+    text-align: center;
+    min-height: 340px;
+    padding: 2rem 0;
+  }
+  .mdx-hero__content {
+    margin-right: 0;
+    margin-bottom: 2rem;
+    max-width: 95vw;
+  }
+  .mdx-hero__illustration img {
+    width: 220px;
+    max-width: 80vw;
+  }
+  .mdx-hero__buttons {
+    justify-content: center;
+  }
+}
