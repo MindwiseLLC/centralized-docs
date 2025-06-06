@@ -34,3 +34,5 @@ jobs:
               mkdocs-encryptcontent-plugin \
               mkdocs-jupyter \
       - run: mkdocs gh-deploy --force
+        env:
+          ADMIN_PW: ${{ secrets.ADMIN_PW }}
