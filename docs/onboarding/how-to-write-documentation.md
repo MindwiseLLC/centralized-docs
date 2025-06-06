@@ -155,3 +155,6 @@ Each experiment should be documented in a clear, repeatable format.
 - **User Manuals** = *How to Use*  
 - **Technical Docs** = *How It Works*  
 - **Experiments** = *What We Tried*
+
+
+Find detailed markdown tutorial [here](./markdown-guide.md).

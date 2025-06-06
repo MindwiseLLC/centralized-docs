@@ -273,6 +273,8 @@ graph LR
 ```
 
 ==How it looks==
+
+
 ![Build](https://img.shields.io/github/actions/workflow/status/user/repo/ci.yml?branch=main)
 
 
@@ -281,5 +283,17 @@ graph LR
 ```markdown
 ---
 ```
+
+
+### Add keyboard keys
+
+```markdown
+++ctrl+alt+del++
+```
+
+==How it looks==
+
+
+++ctrl+alt+del++
 
 ---

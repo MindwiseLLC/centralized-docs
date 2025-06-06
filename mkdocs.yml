@@ -13,7 +13,7 @@ theme:
   name: material
   custom_dir: overrides
   logo: assets/mindwise_logo_text_edited.svg
-  favicon: images/mindwise_logo_short.svg
+  favicon: assets/mindwise_logo_short.ico
   features:
     - navigation.tabs
     # - navigation.sections
@@ -21,11 +21,13 @@ theme:
     - navigation.top
     - navigation.instant
     - navigation.instant.progress
+    - navigation.footer
     - search.suggest
     - search.highlight
     - content.code.annotate
     - content.tabs.link
     - content.action.edit  
+    - content.code.copy
 
   palette:
     # Palette toggle for light/dark mode
@@ -76,15 +78,15 @@ plugins:
           imports: [/docs/*]
 
         - name: nlp-pipeline 
-          import_url: https://github.com/MindwiseLLC/NLP-pipeline?branch=production_nlp&edit_uri=/blob/production_nlp/ 
+          import_url: https://github.com/MindwiseLLC/NLP-pipeline?branch=production&edit_uri=/blob/production/ 
           imports: [/readme.md, /docs/*, /readme_assets/*, /notebooks/*]
         
         - name: data-cleansing-pipeline 
-          import_url: https://github.com/MindwiseLLC/data-cleansing?branch=production_cleansing&edit_uri=/blob/production_cleansing/ 
+          import_url: https://github.com/MindwiseLLC/data-cleansing?branch=production&edit_uri=/blob/production/ 
           imports: [/readme.md]
         
         - name: product-tracing 
-          import_url: https://github.com/MindwiseLLC/Product-tracing?branch=production_tracing&edit_uri=/blob/production_tracing/ 
+          import_url: https://github.com/MindwiseLLC/Product-tracing?branch=production&edit_uri=/blob/production/ 
           imports: [/readme.md, /docs/*]
         
         - name: causal-impact
@@ -100,15 +102,15 @@ plugins:
           imports: [/README.md]
 
         - name: complex-audit
-          import_url: https://github.com/MindwiseLLC/supervised?branch=production_supervised&edit_uri=/blob/production_supervised/ 
+          import_url: https://github.com/MindwiseLLC/supervised?branch=production&edit_uri=/blob/production/ 
           imports: [/README.md, complex_audits_frauds/README.md]
 
         - name: clustering
-          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production_unsupervised&edit_uri=/blob/production_unsupervised/ 
+          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production&edit_uri=/blob/production/ 
           imports: [clustering/README.md]
 
         - name: time-series-analysis
-          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production_unsupervised&edit_uri=/blob/production_unsupervised/ 
+          import_url: https://github.com/MindwiseLLC/unsupervised?branch=production&edit_uri=/blob/production/ 
           imports: [time_series_analysis/README.md]
 
         - name: supermarket-scraper
@@ -180,11 +182,23 @@ markdown_extensions:
   - md_in_html
   - admonition
   - pymdownx.details
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.keys
+  - pymdownx.highlight
+  - codehilite
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
          
 # ===========================================================================
 #                                    Navigation 
@@ -195,8 +209,6 @@ nav:
   #                                    Home page
   # ===========================================================================
   - Home: index.md
-
-  - Secrets: secrets.md
   
   # ===========================================================================
   #                               Business Documentation
@@ -376,15 +388,27 @@ nav:
   # ===========================================================================
 
   - Onboarding:
-    - How To Write Documentation:
-      - Overview: onboarding/how-to-write-documentation.md
+    - Welcome!:
+      - ML-Workflow: onboarding/ml-team-workflow.md
+      - Your-First-Project: onboarding/ml-environment.md
+    - Documentation:
+      - How To Write Documentation: onboarding/how-to-write-documentation.md
       - Markdown Tricks and Tips: onboarding/markdown-guide.md
-    - smth
-    - else 
+    - MLFlow:
+      - MLFlow Tutorial: onboarding/mlflow-guide.md
+    - DVC:
+      - DVC Turorial: onboarding/dvc-guide.md
+  
+  
+  - Secrets: secrets.md
 
 
 
 
 
-
-
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MindwiseLLC
+    - icon: simple/mlflow
+      link: http://mlflow.daniam.am
