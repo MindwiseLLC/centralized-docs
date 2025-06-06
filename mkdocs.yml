@@ -1,8 +1,8 @@
 site_name: "United Documentation"
-site_url: "https://your-org.github.io/centralized-docs/" 
-repo_url: "https://MindwiseLLC.github.io/centralized-docs" 
+site_url: "https://mindwisellc.github.io/centralized-docs/" 
+repo_url: "https://github.com/MindwiseLLC/centralized-docs.git" 
 repo_name: "centralized-docs"
-edit_uri: "edit/main/docs/" # Or blob/main/docs/ depending on GitHub's default
+# edit_uri: "edit/main/docs/" # Or blob/main/docs/ depending on GitHub's default
 
 
 # ===========================================================================
