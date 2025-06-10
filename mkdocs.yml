@@ -9,6 +9,7 @@ repo_name: "centralized-docs"
 #                          Initial Website Setups
 # ===========================================================================
 
+# ⚠️ DANGER ZONE: DO NOT EDIT THEME PARAMETERS IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
 theme:
   name: material
   custom_dir: overrides
@@ -58,23 +59,33 @@ extra_css:
 #                                  Plugins
 # ===========================================================================
 
+# ⚠️ DANGER ZONE: PLEASE DO NOT CHANGE PLUGIN PARAMETERS, UNLESS OTHERWISE STATED BEFORE SECTION
+
 plugins:
 
   # Enables search in website
   - search
+
   # Multirepo plugin: Pulls and combines documnetation from various sources
   - multirepo:
-      # PLEASE DO NOT CHANGE PLUGIN PARAMETERS, WORK ONLY WITH nav_repos
+      # ⚠️ DANGER ZONE: PLEASE DO NOT CHANGE PLUGIN PARAMETERS, WORK ONLY WITH nav_repos
       keep_docs_dir: true 
       temp_dir: projects
 
-      ### YOU WILL WORK HERE IF YOU NEED TO ADD YOUR DOCUMENTATION
+      ### ✅ WORKING ZONE:YOU WILL WORK HERE IF YOU NEED TO ADD YOUR DOCUMENTATION
       nav_repos:
+
         # This will be the directory name within your hub's docs folder where project docs are built
+        ## You will reference this name when adding your documentation to the navigation
         - name: test 
+
           # This is the github repository that from which the documenatation will be imported
+          ## do not forget to add this at the end of the repository link ?branch=YOUR-BRANCH-NAME&edit_uri=/blob/YOUR-BRANCH-NAME/
           import_url: https://github.com/MindwiseLLC/demo-repository?branch=main&edit_uri=/blob/main/  
-          # this is all the files and folders that shold be imported from github repository
+          
+          # This is all the files and folders that shold be imported from github repository
+          # If you are using mkdocstrings to generate technical documentation from the docstrings
+          # you will need to import the code as well, otherwise load only .md files
           imports: [/docs/*]
 
         - name: nlp-pipeline 
@@ -118,25 +129,31 @@ plugins:
           imports: [/README.md]
 
 
-        - name: causal # This will be the directory name within your hub's docs folder where NLP docs are built
+        - name: causal 
           import_url: https://github.com/MindwiseLLC/testing-docs?branch=main&edit_uri=/blob/main/
           imports: [causal/docs/*]
 
         - name: docstrings
-          import_url: https://github.com/MindwiseLLC/testing-docs?branch=main&edit_uri=/blob/main/&keep_docs_dir=true&extra_imports=["py_doc_Strings/**"]
-          imports:
-            - py_doc_Strings/**   # already contains both docs & code
+          import_url: https://github.com/MindwiseLLC/testing-docs?branch=main&edit_uri=/blob/main/
+          #&keep_docs_dir=true&extra_imports=["py_doc_Strings/**"]
+          imports: [/py_doc_Strings/*]   # already contains both docs & code
+
+        - name: admin
+          import_url: https://github.com/MindwiseLLC/admin-docs?branch=main&edit_uri=/blob/main/
+          imports: [/readme.md, /docs/*]
+
 
   - mkdocstrings:
       handlers:
         python:
           paths:
             # paths are relative to the project root *after* multirepo copies files
+            # ✅ WORKING ZONE: add your path here
             - projects/docstrings/
 
 
   # Enables pdf export in the webstie
-  ## DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
+  ## ⚠️ DANGER ZONE: DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
   - exporter:
       logging:
             level: critical
@@ -162,7 +179,7 @@ plugins:
           attributes: !!python/name:mkdocs_exporter.formats.pdf.buttons.download.attributes
   
   
-  ## DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
+  ## ⚠️ DANGER ZONE: DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
   - encryptcontent:
       # optional cosmetics
       title_prefix: '[LOCK]'
@@ -173,10 +190,18 @@ plugins:
             admin: !ENV ADMIN_PW
             # ADMIN_PW=adminpass mkdocs serve
   
+  ## ⚠️ DANGER ZONE: DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
   # Enables Jupyter Notebook Intergration
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
+      include_source: True
+      ignore: ["docs/scripts/setup_ml_tools.py"]
 
 
+# ===========================================================================
+#                              Markdown Extensions
+# ===========================================================================
+
+## ⚠️ DANGER ZONE: DO NOT EDIT THIS PART IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
 markdown_extensions:
   - attr_list
   - md_in_html
@@ -204,19 +229,26 @@ markdown_extensions:
 #                                    Navigation 
 # ===========================================================================
 
+### ✅ WORKING ZONE: 
+
 nav:
   # ===========================================================================
   #                                    Home page
   # ===========================================================================
+  ## ⚠️ DANGER ZONE: DO NOT EDIT HOME PAGE IF YOU ARE NOT AN ADMINISTRATOR OF DOCUMENTATION WEBSITE
   - Home: index.md
   
   # ===========================================================================
   #                               Business Documentation
   # ===========================================================================
-
+  
+  ### ✅ WORKING ZONE: Add your business documentation here. 
   - Business Documentation: 
-    - TEST: # This will link to the imported NLP docs, now structured under "Business"
-      # Path assumes 'nlp' is the section name from multirepo, and 'business.md' is in its docs folder
+    - TEST: # Give name to your navigation section, this name will be visible on the website
+      # add sections and files with this syntax 
+      # - Page Name: path/to/file
+      # Path assumes 'test' is the section name you assigned ealier in the plugihs section under mutirepo -> nav_repos:
+      # docs is the folder you imported above from the github in nav_repos sectio
       - Overview: test/docs/business.md 
   
     - NLP pipeline: 
@@ -233,28 +265,28 @@ nav:
       - Product Tracing: product-tracing/docs/tracing_business.md
       - Product General Tracing: product-tracing/docs/general_tracing_business.md
 
-    # - Causal-Impact: causal-impact/docs/business.md  
+    - Causal-Impact: causal-impact/docs/business.md  
 
-    # - Commodity-Tracing:
-    #   - Overview: add_your_documentation_here.md
+    - Commodity-Tracing:
+      - Overview: add_your_documentation_here.md
 
-    # - Data-Preparation:
-    #   - Overview: add_your_documentation_here.md
+    - Data-Preparation:
+      - Overview: add_your_documentation_here.md
 
-    # - Complex-Audit:
-    #   - Overview: add_your_documentation_here.md
+    - Complex-Audit:
+      - Overview: add_your_documentation_here.md
 
-    # - Clustering:
-    #   - Overview: add_your_documentation_here.md
+    - Clustering:
+      - Overview: add_your_documentation_here.md
 
-    # - Time-Series-Analysis:
-    #   - Overview: add_your_documentation_here.md
+    - Time-Series-Analysis:
+      - Overview: add_your_documentation_here.md
 
-    # - Supermarket-Scraper:
-    #   - Overview: add_your_documentation_here.md
+    - Supermarket-Scraper:
+      - Overview: add_your_documentation_here.md
 
-    # - Causal: 
-    #   - Overview: causal/causal/docs/business.md 
+    - Causal: 
+      - Overview: causal/causal/docs/business.md 
 
 
     - docstrings: 
@@ -394,13 +426,19 @@ nav:
     - Documentation:
       - How To Write Documentation: onboarding/how-to-write-documentation.md
       - Markdown Tricks and Tips: onboarding/markdown-guide.md
+      - Add your Docs to Central Docs Hub: onboarding/mkdocs-guide.md
+    - Git:
+      - Git and Github Turorial: onboarding/git-guide.md
     - MLFlow:
       - MLFlow Tutorial: onboarding/mlflow-guide.md
     - DVC:
       - DVC Turorial: onboarding/dvc-guide.md
   
   
-  - Secrets: secrets.md
+  - Admin: 
+    - Overview: admin/readme.md
+    - Docuemntation Hub Maintainance: admin/docs/mkdocs_maintenance.md
+    - Admin Logs: admin/docs/ADMIN_LOG.md
 
 
 

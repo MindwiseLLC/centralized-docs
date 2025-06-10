@@ -9,6 +9,13 @@ This guide provides a complete walkthrough of how to use **MLflow** for experime
 * Understanding the MLflow UI
 * Markdown and Jupyter Notebook examples provided
 
+❗ DataCamp slides for mlflow. Higlihy recommended to read.
+
+* [Lecture 1](https://projector-video-pdf-converter.datacamp.com/31361/chapter1.pdf)
+* [Lecture 2](https://projector-video-pdf-converter.datacamp.com/31361/chapter2.pdf)
+* [Lecture 3](https://projector-video-pdf-converter.datacamp.com/31361/chapter3.pdf)
+* [Lecture 4](https://projector-video-pdf-converter.datacamp.com/31361/chapter4.pdf)
+
 ---
 
 ## 🔐 1. Connecting to Internal MLflow Server

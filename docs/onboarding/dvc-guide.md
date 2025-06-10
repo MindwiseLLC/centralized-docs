@@ -1,9 +1,14 @@
-# 📦 DVC + Git Tracking Tutorial (Internal Guide)
+📦 DVC Tracking Tutorial + git (Internal Guide)
 
-This guide teaches you how to use **Git** and **DVC** from scratch to track code, data, models, and experiments in a 
-clean, reproducible way.
+This guide teaches you how to use **Git** and **DVC** from scratch to track code, data, models, and experiments in a clean, 
+reproducible way.
 
 We assume **no prior experience** with either tool.
+
+
+Highly recommended to read this 
+[source](https://www.datacamp.com/tutorial/data-version-control-dvc?utm_source=google&utm_medium=paid_search&utm_campaignid=19589720821&utm_adgroupid=157098104615&utm_device=c&utm_keyword=&utm_matchtype=&utm_network=g&utm_adpostion=&utm_creative=684592139969&utm_targetid=dsa-2264919292029&utm_loc_interest_ms=&utm_loc_physical_ms=9217465&utm_content=ps-other~emea-en~dsa~tofu~tutorial-data-engineering&accountid=9624585688&utm_campaign=230119_1-ps-other~dsa~tofu_2-b2c_3-emea_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&gad_source=1&gad_campaignid=19589720821&gbraid=0AAAAADQ9WsG0cz8Ol0SiDXPWr1o61cgRb&gclid=CjwKCAjwo4rCBhAbEiwAxhJlCblK6Rvvi6O24CqA0MwAofdVm17sMLPDF_Y_kBpfIz-Gp6iB3bG6phoCi6cQAvD_BwE) 
+for end to end understanding of dvc.
 
 ---
 
@@ -14,9 +19,7 @@ We assume **no prior experience** with either tool.
 | Source code          | Git      | Version control for all scripts/configs   |
 | Docs (Markdown)      | Git      | Easy collaboration + versioning           |
 | Small config files   | Git      | Human-readable, diffable                  |
-| Large data files     | DVC      | Git isn't optimized for large files       |
-| Model binaries       | DVC      | Models can be big, binary, auto-updating  |
-| Outputs (plots/logs) | DVC      | Optional: reproducible pipeline artifacts |
+| Data files           | DVC      | Git isn't optimized for large files       |
 
 > 🔒 **Never add raw datasets or model files directly to Git. Always track them with DVC.**
 
@@ -40,7 +43,7 @@ mkdir -p data/raw models notebooks scripts docs
 ### b) Create `.gitignore`
 
 ```bash
-echo "__pycache__/\n*.pyc\n.env\n.vscode/\ndata/*\nmodels/*" > .gitignore
+echo "__pycache__/\n*.pyc\n.env\n.vscode/\ndata/*" > .gitignore
 git add .gitignore
 ```
 
@@ -67,17 +70,17 @@ This creates a `.dvc` directory and updates `.gitignore`.
 ### b) Commit DVC setup to Git
 
 ```bash
-git add .dvc .gitignore dvc.yaml dvc.lock
+git add .dvc .gitignore 
 git commit -m "Initialize DVC"
 ```
 
 ### c) Configure remote storage (internal)
 
 ```bash
-dvc remote add -d storage s3://internal-dvc-storage/project-name
+dvc remote add myremote ssh aiml@...
 ```
 
-> 🧠 Ask your lead for the correct internal S3 path and credentials.
+> 🧠 Ask your admin for the correct internal SSH path and credentials.
 
 ---
 
@@ -116,7 +119,8 @@ dvc pull  # fetch corresponding datasets or models
 
 ---
 
-## 🧠 5. Tracking Models and Artifacts
+## 🧠 5. Tracking Models and Artifacts 
+## (EXPERIMENTAL!!! NOT REQUIRED)
 
 ### a) Add model files after training
 
@@ -141,58 +145,6 @@ dvc push
 
 ---
 
-## 🔁 6. Full Experiment Workflow
-
-```bash
-git checkout -b experiment/lstm-v1
-
-# Update script/config
-python train.py
-
-# Track model + data
-mv model.pkl models/
-dvc add models/model.pkl
-dvc push
-
-git add .
-git commit -m "Run LSTM baseline with config A"
-git push origin experiment/lstm-v1
-```
-
-To reproduce someone’s run:
-
-```bash
-git checkout experiment/lstm-v1
-dvc pull
-python evaluate.py --model models/model.pkl
-```
-
----
-
-## 📘 7. Git Workflow Guidelines
-
-### ✅ Follow branch naming:
-
-* `main`, `develop`
-* `feature/<name>`
-* `experiment/<name>`
-* `fix/<bug>`
-
-### ✅ Use clean, readable commit messages:
-
-```bash
-git commit -m "Add DVC tracking to preprocessing outputs"
-```
-
-### ✅ Tag major runs:
-
-```bash
-git tag -a exp-2025-06-01-lstm -m "LSTM v1 trained on reduced set"
-git push origin --tags
-```
-
----
-
 ## 🛠 Common Git & DVC Commands
 
 | Task                       | Command                              |
@@ -202,17 +154,17 @@ git push origin --tags
 | Commit file metadata       | `git add file.csv.dvc && git commit` |
 | Push large files to remote | `dvc push`                           |
 | Pull files from teammates  | `git pull` + `dvc pull`              |
-| Visualize DVC DAG          | `dvc dag`                            |
 
 ---
 
 ## 🔐 Final Checklist
 
-✅ Data and model files are tracked with DVC
+✅ Data is tracked with DVC ( model files)
 ✅ Git repo contains only `.dvc` references
 ✅ All changes pushed to GitHub
 ✅ `dvc push` run after every experiment
-✅ Metadata (`.dvc`, `params.yaml`, `dvc.lock`) are versioned in Git
+✅ Metadata (`.dvc`) are versioned in Git
 
 ---
+
 

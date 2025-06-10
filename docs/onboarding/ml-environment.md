@@ -2,6 +2,14 @@
 
 To contribute to any ML project, you must set up your environment with access to our internal services.
 
+❗You can [download this script](../scripts/setup_ml_tools.py.zip) and run it in your directory.
+```sh
+python setup_ml_tools.py
+```
+It will automatically setup the basic environment for ML workflow. 
+The script creates local setup of mkdocs so you can test your documentation. It also downloads MLFlow and DVC.
+
+
 ## 📢 Please communicate with your administrator. 
 #### To use all the tools you will need 
 
